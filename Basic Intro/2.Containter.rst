@@ -1,0 +1,62 @@
+
+container
+----------
+
+Reference : `Reference for containers: <https://docs.docker.com/engine/reference/commandline/container/>_
+
+1. List the running images in the docker i.e. `Continers <https://docs.docker.com/engine/reference/commandline/ps/>`_
+
+The running instance of the image is called in stored in somewhere. That somewhere is termed as a container.
+
+    
+    # Running images are stored in the container; empty if not running
+
+    .. code-block:: bash
+
+        docker ps
+
+        CONTAINER ID   IMAGE           COMMAND     CREATED          STATUS          PORTS     NAMES
+        57cdd284a653   alpine:latest   "/bin/sh"   10 minutes ago   Up 10 minutes             adoring_goldwasser
+
+    # If you want to format the output in the horizonal, run the command 1.format.sh
+
+    .. code-block:: bash
+
+        docker ps --format $FORMAT
+        # Here the variable FORMAT is exported to the environment variable
+
+        ID      57cdd284a653
+        IMAGE   alpine:latest
+        COMMAND "/bin/sh"
+        CREATED 15 minutes ago
+        STATUS  Up 15 minutes
+        PORTS
+        NAMES   adoring_goldwasser
+
+
+By default the stopped containers are not shown in the docker. But you can still see them if you need to.
+
+2. List the containers in the docker even if they are stopped
+
+ -l for the latest image
+
+ -a for all the images
+
+.. code-block:: bash
+
+    docker ps -l
+
+    CONTAINER ID   IMAGE           COMMAND     CREATED          STATUS          PORTS     NAMES
+    57cdd284a653   alpine:latest   "/bin/sh"   28 minutes ago   Up 28 minutes             adoring_goldwasser
+
+    docker ps -a
+
+    57cdd284a653   alpine:latest   "/bin/sh"   28 minutes ago   Up 28 minutes                           adoring_goldwasser
+    fea046af907e   alpine:latest   "bash"      28 minutes ago   Created                                 elastic_turing
+    af5bdc2618fe   alpine:latest   "bash"      29 minutes ago   Created                                 objective_lalande
+    ce2536b86dbd   alpine:latest   "bash"      29 minutes ago   Created                                 quirky_turing
+    e21abbdf029b   alpine:latest   "bash"      29 minutes ago   Created                                 loving_meitner
+    55f89166b44a   alpine:latest   "/bin/sh"   31 minutes ago   Exited (127) 29 minutes ago             pensive_wright
+    fec4fcd13a4f   alpine:latest   "/bin/sh"   34 minutes ago   Exited (130) 34 minutes ago             flamboyant_goldstine
+    d16f4f98a663   alpine          "/bin/sh"   40 minutes ago   Exited (0) 40 minutes ago               affectionate_jang
+    81a84f4629dd   hello-world     "/hello"    55 minutes ago   Exited (0) 55 minutes ago               competent_lederberg

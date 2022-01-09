@@ -1,0 +1,70 @@
+Docker Networking
+==================
+
+1. Check the available networks
+
+..code :: bash
+
+    docker network ls
+
+        NETWORK ID     NAME      DRIVER    SCOPE
+        a6791b17b902   bridge    bridge    local
+        3fb689847140   host      host      local
+        5add26d7654e   none      null      local
+
+
+
+2. Create a new network
+
+..code :: bash
+
+    docker network create networkLink0
+     
+        NETWORK ID     NAME           DRIVER    SCOPE
+        a6791b17b902   bridge         bridge    local
+        3fb689847140   host           host      local
+        9e3c43d2e2a3   networkLink0   bridge    local
+        5add26d7654e   none           null      local
+
+
+3. Attach two container to the network   --net network name 
+
+
+Server 1
+
+..code :: bash  
+    
+    docker run --rm -d -it --net networkLink0 --name boomboom adoring_obsidian
+
+    CONTAINER ID   IMAGE              COMMAND     CREATED         STATUS         PORTS     NAMES
+    45973b9ef04f   adoring_obsidian   "/bin/sh"   5 seconds ago   Up 4 seconds             boomboom 
+
+
+Server 1
+
+..code :: bash  
+    
+    docker run --rm -d -it --net networkLink0 --name doomdoom adoring_obsidian
+
+    CONTAINER ID   IMAGE              COMMAND     CREATED         STATUS         PORTS     NAMES
+    45973b9ef04f   adoring_obsidian   "/bin/sh"   5 seconds ago   Up 4 seconds             boomboom 
+
+4. Testing Network between the Servers
+
+    docker attach doomdoom
+    / # ping boomboom
+    PING boomboom (172.18.0.2): 56 data bytes
+    64 bytes from 172.18.0.2: seq=0 ttl=64 time=0.117 ms
+    64 bytes from 172.18.0.2: seq=1 ttl=64 time=0.113 ms
+    64 bytes from 172.18.0.2: seq=2 ttl=64 time=0.091 ms
+    64 bytes from 172.18.0.2: seq=3 ttl=64 time=0.095 ms
+
+    docker attach boomboom
+    / # ping doomdoom
+    PING doomdoom (172.18.0.3): 56 data bytes
+    64 bytes from 172.18.0.3: seq=0 ttl=64 time=0.083 ms
+    64 bytes from 172.18.0.3: seq=1 ttl=64 time=0.118 ms
+    64 bytes from 172.18.0.3: seq=2 ttl=64 time=0.107 ms
+    64 bytes from 172.18.0.3: seq=3 ttl=64 time=0.159 ms
+
+5. Legacy lINK : one way

@@ -1,0 +1,4 @@
+docker run -d -it -v path/to/folder:/folderref alpine
+docker run -d -it -v path/to/file.txt:/file.txt alpine
+
+--more needed

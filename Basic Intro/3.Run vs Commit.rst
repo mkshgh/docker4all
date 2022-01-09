@@ -1,0 +1,64 @@
+Run vs Commit
+=============
+
+You will obviously make some changes to the images once you change the images.
+These changes will only be in the local computer until you commit it.
+So, you want to commit these changes and create a new image with the configuration that you want to export to a other locations.
+For this docker commit is needed.
+
+``
+In jist:
+
+Base Images         - Docker run--->  container 
+
+Stopped container   -Docker commit--> New Base Image
+
+# Docker run takes images into containers and Docker commit creates new Images from container
+# Both the images will be in the docker unless you explicitly remove them.
+
+``
+
+Eg:
+---
+
+1. Get the latest image that you made changes to
+
+.. code-block:: bash
+
+    docker ps -l
+
+    CONTAINER ID   IMAGE           COMMAND     CREATED          STATUS          PORTS     NAMES
+    57cdd284a653   alpine:latest   "/bin/sh"   28 minutes ago   Up 28 minutes             adoring_goldwasser
+
+2. Docker Run images with parameters
+
+.. code-block:: bash
+
+    --memory  maximu-allowed-memory-in-bytes
+    --cpus no-of-cpus
+    --name name-of-image
+    -d <use this to run in background>
+    -it <interactive terminal>
+    -p <binding ports>
+    --rm
+
+    docker run --help for more info
+    docker run -d -it --name shakalakabopmboom 
+
+3.  Commit the image to get the image 
+
+.. code-block:: bash
+
+    # docker commit <old_image> <new_image_tag>
+    docker commit adoring_goldwasser adoring_obsidian
+
+    sha256:966b36b87f560e0ef402806d278fde499784181bdf7555ba4ce710d9c7a0f05b
+
+    # Check the new images in the docker list now
+    
+    docker images
+
+    REPOSITORY         TAG       IMAGE ID       CREATED         SIZE
+    adoring_obsidian   latest    966b36b87f56   7 seconds ago   5.59MB
+    alpine             latest    c059bfaa849c   6 weeks ago     5.59MB
+    hello-world        latest    feb5d9fea6a5   3 months ago    13.3kB

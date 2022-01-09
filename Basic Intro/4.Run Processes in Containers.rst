@@ -1,0 +1,52 @@
+Run Processes in Continers
+==========================
+
+1. Find a image that you want to run using 
+
+..code :: bash
+
+    docker images 
+
+    REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
+    adoring_obsidian   latest    966b36b87f56   15 minutes ago   5.59MB
+    alpine             latest    c059bfaa849c   6 weeks ago      5.59MB
+    hello-world        latest    feb5d9fea6a5   3 months ago     13.3kB
+
+2. start it 
+
+..code :: bash
+
+    docker run -ti alpine 
+
+2. What if you want to keep it running detached until you stop it.
+
+..code :: bash
+
+    # Keep running it in background -d -ti
+
+    docker run --name sharp_bhaskara -d -ti adoring_obsidian
+
+    24eee1e4e55891d95ab9f528991eef6beb5a18b0d4ebd4d9cb7b3bf8166289e6
+
+3. Check the running containers
+
+..code :: bash
+
+    docker ps
+
+    CONTAINER ID   IMAGE           COMMAND     CREATED              STATUS              PORTS     NAMES
+    150ab45d8755   alpine          "/bin/sh"   About a minute ago   Up About a minute             clever_babbage
+    57cdd284a653   alpine:latest   "/bin/sh"   56 minutes ago       Up 56 minutes                 adoring_goldwasser
+    24eee1e4e558   adoring_obsidian   "/bin/sh"   4 seconds ago   Up 3 seconds             sharp_bhaskara
+
+4. Attach to the running containers by their NAMES
+
+..code :: bash
+
+    docker attach sharp_bhaskara
+
+5. Exit from the container
+
+    CTRL + P and CTRL + Q in sequence -> This will not stop the container
+    CTRL + D  or CTRL + C             -> This will stop the container overall
+

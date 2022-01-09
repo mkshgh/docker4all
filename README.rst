@@ -48,6 +48,13 @@ Reference: `Docker Official Installation Guide <https://docs.docker.com/engine/i
     sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 
+6. Info about the Docker installed
+
+.. code-block:: bash
+
+    docker info
+
+
 Testing:
 ---------
 

@@ -1,0 +1,58 @@
+Docker Ports
+============
+
+If you have some services running on a port then you can mention it in the running configuration
+
+1. Running binding external ports to internal ports
+
+..code :: bash
+
+    docker run --rm -d -it -p 8000:8000 -p 7443:443 --name boomboom adoring_obsidian
+
+
+2. Checking the ports forwarded
+
+..code :: bash
+
+    docker ps --format=$FORMAT
+
+    ID      87ea13772974
+    IMAGE   adoring_obsidian
+    COMMAND "/bin/sh"
+    CREATED 24 seconds ago
+    STATUS  Up 24 seconds
+    PORTS   0.0.0.0:8000->8000/tcp, :::8000->8000/tcp, 0.0.0.0:7443->443/tcp, :::7443->443/tcp
+    NAMES   boomboom
+
+3. Kill the docker 
+
+..code :: bash
+
+    docker kill boomboom
+
+4. If you don't mention the ports then, the system will find a random port that is available
+
+..code :: bash
+
+    docker run --rm -d -it -p 8000 -p 443 --name boomboom adoring_obsidian
+
+    ID      e2aec1389e03
+    IMAGE   adoring_obsidian
+    COMMAND "/bin/sh"
+    CREATED 10 seconds ago
+    STATUS  Up 9 seconds
+    PORTS   0.0.0.0:49154->443/tcp, :::49154->443/tcp, 0.0.0.0:49153->8000/tcp, :::49153->8000/tcp
+    NAMES   boomboom
+
+5. You can see all the ports only using ports filter
+
+..code :: bash
+    docker port boomboom
+
+    8000/tcp -> 0.0.0.0:49153
+    8000/tcp -> :::49153
+    443/tcp -> 0.0.0.0:49154
+    443/tcp -> :::49154
+
+
+use nc (netcat) to host and test if you have no applications running the given ports.
