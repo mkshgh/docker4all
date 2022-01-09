@@ -3,7 +3,7 @@ Docker Networking
 
 1. Check the available networks
 
-..code :: bash
+.. code-block:: bash
 
     docker network ls
 
@@ -16,7 +16,7 @@ Docker Networking
 
 2. Create a new network
 
-..code :: bash
+.. code-block:: bash
 
     docker network create networkLink0
      
@@ -32,7 +32,7 @@ Docker Networking
 
 Server 1
 
-..code :: bash  
+.. code-block:: bash  
     
     docker run --rm -d -it --net networkLink0 --name boomboom adoring_obsidian
 
@@ -42,7 +42,7 @@ Server 1
 
 Server 1
 
-..code :: bash  
+.. code-block:: bash  
     
     docker run --rm -d -it --net networkLink0 --name doomdoom adoring_obsidian
 

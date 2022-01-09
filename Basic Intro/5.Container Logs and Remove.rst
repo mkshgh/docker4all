@@ -6,7 +6,7 @@ Reference : `Reference for containers: <https://docs.docker.com/engine/reference
 1. List the running images in the docker i.e. `Continers <https://docs.docker.com/engine/reference/commandline/ps/>`_
 
 
-..code :: bash
+.. code-block:: bash
 
     docker ps -l
 
@@ -16,13 +16,13 @@ Reference : `Reference for containers: <https://docs.docker.com/engine/reference
 
 2. Docker Logs
 
-..code :: bash
+.. code-block:: bash
 
     # Docker logs container_name
     Docker logs sharp_bhaskara
 
 3. Delete the containers using rm
 
-..code :: bash
+.. code-block:: bash
 
     docker rm sharp_bhaskara

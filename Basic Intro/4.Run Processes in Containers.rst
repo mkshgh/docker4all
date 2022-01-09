@@ -3,7 +3,7 @@ Run Processes in Continers
 
 1. Find a image that you want to run using 
 
-..code :: bash
+.. code-block:: bash
 
     docker images 
 
@@ -14,13 +14,13 @@ Run Processes in Continers
 
 2. start it 
 
-..code :: bash
+.. code-block:: bash
 
     docker run -ti alpine 
 
 2. What if you want to keep it running detached until you stop it.
 
-..code :: bash
+.. code-block:: bash
 
     # Keep running it in background -d -ti
 
@@ -30,7 +30,7 @@ Run Processes in Continers
 
 3. Check the running containers
 
-..code :: bash
+.. code-block:: bash
 
     docker ps
 
@@ -41,7 +41,7 @@ Run Processes in Continers
 
 4. Attach to the running containers by their NAMES
 
-..code :: bash
+.. code-block:: bash
 
     docker attach sharp_bhaskara
 

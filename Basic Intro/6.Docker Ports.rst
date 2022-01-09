@@ -5,14 +5,14 @@ If you have some services running on a port then you can mention it in the runni
 
 1. Running binding external ports to internal ports
 
-..code :: bash
+.. code-block:: bash
 
     docker run --rm -d -it -p 8000:8000 -p 7443:443 --name boomboom adoring_obsidian
 
 
 2. Checking the ports forwarded
 
-..code :: bash
+.. code-block:: bash
 
     docker ps --format=$FORMAT
 
@@ -26,13 +26,13 @@ If you have some services running on a port then you can mention it in the runni
 
 3. Kill the docker 
 
-..code :: bash
+.. code-block:: bash
 
     docker kill boomboom
 
 4. If you don't mention the ports then, the system will find a random port that is available
 
-..code :: bash
+.. code-block:: bash
 
     docker run --rm -d -it -p 8000 -p 443 --name boomboom adoring_obsidian
 
@@ -46,7 +46,7 @@ If you have some services running on a port then you can mention it in the runni
 
 5. You can see all the ports only using ports filter
 
-..code :: bash
+.. code-block:: bash
     docker port boomboom
 
     8000/tcp -> 0.0.0.0:49153
