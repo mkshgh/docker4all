@@ -51,7 +51,10 @@ Server 1
 
 4. Testing Network between the Servers
 
-    docker attach doomdoom
+docker attach doomdoom
+ 
+.. code-block:: bash
+
     / # ping boomboom
     PING boomboom (172.18.0.2): 56 data bytes
     64 bytes from 172.18.0.2: seq=0 ttl=64 time=0.117 ms
@@ -59,7 +62,10 @@ Server 1
     64 bytes from 172.18.0.2: seq=2 ttl=64 time=0.091 ms
     64 bytes from 172.18.0.2: seq=3 ttl=64 time=0.095 ms
 
-    docker attach boomboom
+docker attach boomboom
+
+.. code-block:: bash
+
     / # ping doomdoom
     PING doomdoom (172.18.0.3): 56 data bytes
     64 bytes from 172.18.0.3: seq=0 ttl=64 time=0.083 ms
