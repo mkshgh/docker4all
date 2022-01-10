@@ -98,7 +98,7 @@ Uninstall
 10 Seconds each
 ----------------
 
-.. code-block:bash
+::
 
     ├── Basic Intro
     │   ├── 1.Images.rst
@@ -112,3 +112,5 @@ Uninstall
     │   ├── 8.Volumes.rst
     │   └── 9.Search and Download Images
     └── README.rst
+    
+    
