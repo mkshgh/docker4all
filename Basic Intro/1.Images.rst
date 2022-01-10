@@ -1,6 +1,6 @@
 images
 =======
-Reference: `Docker Official Images CLI <https://docs.docker.com/engine/reference/commandline/docker/>`_ 
+Reference: `Docker Official Images CLI <https://docs.docker.com/engine/reference/commandline/docker>`_ 
 
 
 images

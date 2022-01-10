@@ -1,0 +1,45 @@
+from Registries
+========================== 
+
+1. Search for new images from cmd or Docker `Hub <https://hub.docker.com>`_
+
+.. code-block:: bash
+    
+    docker search elk
+
+
+2. Login to docker
+
+.. code-block:: bash
+
+    $ docker login
+
+    Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+    Username: mkshgh
+    Password: 
+    WARNING! Your password will be stored unencrypted in /home/mukesh/.docker/config.json.
+    Configure a credential helper to remove this warning. See
+    https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+    Login Succeeded
+
+5. Pull the images
+
+.. code-block:: bash
+    
+    docker pull sebp/elk
+
+6. Tag the images
+
+.. code-block:: bash
+
+    docker tag sebp/elk mkshgh/elk:v0.1
+
+7. Push to public repo
+
+.. code-block::bash
+
+    docker push mkshgh/elk:v0.1
+
+
+

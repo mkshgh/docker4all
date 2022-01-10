@@ -1,7 +1,7 @@
 Container Logs
 ------------------
 
-Reference : `Reference for containers: <https://docs.docker.com/engine/reference/commandline/container/>_
+Reference : `Reference for containers: <https://docs.docker.com/engine/reference/commandline/container>_
 
 1. List the running images in the docker i.e. `Continers <https://docs.docker.com/engine/reference/commandline/ps/>`_
 
