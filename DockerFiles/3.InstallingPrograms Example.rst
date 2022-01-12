@@ -1,0 +1,71 @@
+Example 2
+=========
+
+alpine:
+--------
+
+1. Creating the dockerfile
+
+Gets the alpine image > update it > install nano > open /tmp/notes fie create if not exists
+
+.. code-block:: bash
+
+    # pull the busybox image as shown in Basic intro/9.Search and Download Images
+    FROM alpine
+    RUN apk update 
+    RUN apk add nano
+    CMD "nano" "/tmp/notes"
+
+2. Bulding the image
+
+.. code-block:: bash
+
+    docker build -t alpine_with_nano .
+
+    # Logs 
+
+    Sending build context to Docker daemon  2.048kB
+    Step 1/4 : FROM alpine
+    ---> c059bfaa849c
+    Step 2/4 : RUN apk update
+    ---> Running in 4fd8bcba8e9f
+    fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/main/x86_64/APKINDEX.tar.gz
+    fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/community/x86_64/APKINDEX.tar.gz
+    v3.15.0-188-g815dfab9ce [https://dl-cdn.alpinelinux.org/alpine/v3.15/main]
+        v3.15.0-186-g99cfdf8fe8 [https://dl-cdn.alpinelinux.org/alpine/v3.15/community]
+    OK: 15846 distinct packages available
+    Removing intermediate container 4fd8bcba8e9f
+    ---> 555341394c62
+    Step 3/4 : RUN apk add nano
+    ---> Running in fcda0fcf66cc
+    (1/3) Installing ncurses-terminfo-base (6.3_p20211120-r0)
+    (2/3) Installing ncurses-libs (6.3_p20211120-r0)
+    (3/3) Installing nano (5.9-r0)
+    Executing busybox-1.34.1-r3.trigger
+    OK: 7 MiB in 17 packages
+    Removing intermediate container fcda0fcf66cc
+    ---> 2a5b7aea35df
+    Step 4/4 : CMD "nano" "/tmp/notes"
+    ---> Running in 1188668d77ba
+    Removing intermediate container 1188668d77ba
+    ---> 7ab031a80afe
+    Successfully built 7ab031a80afe
+    Successfully tagged alpine_with_nano:latest
+
+
+3. Confirming the image
+
+.. code-block:: bash
+
+    docker images
+    REPOSITORY         TAG       IMAGE ID       CREATED              SIZE
+    alpine_with_nano   latest    7ab031a80afe   About a minute ago   8.8MB
+
+4. running the docker image
+
+
+.. code-block:: bash
+
+    # You will see that the nano is open with the notes files in notes/tmp
+    docker run --rm -ti alpine_with_nano nano
+

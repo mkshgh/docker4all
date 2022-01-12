@@ -5,7 +5,7 @@ from Registries
 
 .. code-block:: bash
     
-    docker search elk
+    docker search docker_image_name
 
 
 2. Login to docker
@@ -27,19 +27,19 @@ from Registries
 
 .. code-block:: bash
     
-    docker pull sebp/elk
+    docker pull docker_image_name
 
 6. Tag the images
 
 .. code-block:: bash
 
-    docker tag sebp/elk mkshgh/elk:v0.1
+    docker tag docker_image_name mkshgh/custom_image_name:v0.1
 
 7. Push to public repo
 
 .. code-block::bash
 
-    docker push mkshgh/elk:v0.1
+    docker push mkshgh/custom_image_name:v0.1
 
 
 

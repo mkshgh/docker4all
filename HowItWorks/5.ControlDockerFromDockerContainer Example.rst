@@ -1,0 +1,47 @@
+Example 5
+==========
+
+docker
+-------
+
+
+docker pull docker > mount docker.sock into the docker client container > run the docker commands from the client docker instead of outside
+
+Steps
+-----
+
+1. Pull the docker image
+
+.. code-block:: bash
+
+    docker pull docker
+
+2. Check the image
+
+.. code-block:: bash
+
+    $ docker images
+    
+    REPOSITORY                 TAG       IMAGE ID       CREATED        SIZE
+    docker                     latest    15a9bc7c6340   3 weeks ago    216MB
+
+3. Link the docker sock file to the docker client image
+
+.. code-block:: bash
+
+    $ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -ti docker sh
+
+    # If you run the docker commands, it will be executed as if it was a terminal outside the container.
+
+    / # docker images
+    REPOSITORY                 TAG       IMAGE ID       CREATED        SIZE
+    docker                     latest    15a9bc7c6340   3 weeks ago    216MB
+    alpine                     latest    c059bfaa849c   6 weeks ago    5.59MB
+    hello-world                latest    feb5d9fea6a5   3 months ago   13.3kB
+
+    # You can even run the containers or download the images form the container
+
+    / # docker run --rm -ti ubuntu
+    root@ea5eef78952e:/# lsb_release
+
+4. 

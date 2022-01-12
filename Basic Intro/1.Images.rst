@@ -2,7 +2,6 @@ images
 =======
 Reference: `Docker Official Images CLI <https://docs.docker.com/engine/reference/commandline/docker>`_ 
 
-
 images
 --------
 
@@ -22,3 +21,6 @@ images
     docker run -it image-name:version
     docker run -it alpine:latest
 
+4. Docker Remove Images
+
+    docker rmi <your-image-id>

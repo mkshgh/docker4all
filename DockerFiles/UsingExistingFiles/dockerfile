@@ -1,0 +1,4 @@
+FROM alpine_with_nano
+ADD notes.txt /notes.txt
+CMD "nano" "/notes.txt"
+

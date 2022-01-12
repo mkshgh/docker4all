@@ -1,0 +1,79 @@
+Example 1
+=========
+
+Busybox:
+--------
+
+docker build -t hello-busybox .
+
+.. code-block:: bash
+    # pull the busybox image as shown in Basic intro/9.Search and Download Images
+    # create dockerfile direcotry and create the docker file
+    mkdir Busybox
+    cd Busybox
+    vim dockerfile # Use any text editor that you feel comfortable with
+
+    # Add the following lines into the file
+    # Example in the Busybox/dockerfile
+    FROM busybox
+    RUN echo "container: Hello Busy World"
+    CMD echo "World: Hello My first Docker File"
+
+    # Build the docker image using Docker File
+    # -t <image_name> -> tag the image
+    docker build -t hello-busybox .
+
+    Sending build context to Docker daemon  2.048kB
+    Step 1/3 : FROM busybox
+    ---> beae173ccac6
+    Step 2/3 : RUN echo "container: Hello Busy World"
+    ---> Running in 6c69dd4a1d29
+    container: Hello Busy World
+    Removing intermediate container 6c69dd4a1d29
+    ---> 0fb59edf71b7
+    Step 3/3 : RUN echo "World: Hello My first Docker File"
+    ---> Running in e7d53c05ec67
+    World: Hello My first Docker File
+    Removing intermediate container e7d53c05ec67
+    ---> 3be8406649f3
+    Successfully built 3be8406649f3
+    Successfully tagged hello-buxybox:latest
+
+
+    # if you see the images then you can see the image
+    docker images
+
+    REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
+    hello-buxybox      latest    3be8406649f3   10 seconds ago   1.24MB
+    busybox            latest    beae173ccac6   11 days ago      1.24MB
+
+    # Run the dockerfile 
+    docker run --rm hello-busybox
+
+    World: Hello My first Docker File
+    
+    
+    
+
+2. Container Resuing 
+
+While creating the images you can see the following output. The same containers are reused again and again
+
+.. code-block:: bash
+
+    ending build context to Docker daemon  2.048kB
+    Step 1/3 : FROM busybox
+    ---> beae173ccac6
+    Step 2/3 : RUN echo "container: Hello Busy World"
+    ---> Running in 6c69dd4a1d29
+    container: Hello Busy World
+    Removing intermediate container 6c69dd4a1d29 # unused container is removed here
+    ---> 0fb59edf71b7   # e7d53c05ec67 container is used here
+    Step 3/3 : RUN echo "World: Hello My first Docker File"
+    ---> Running in e7d53c05ec67 # e7d53c05ec67 container is resuedused here
+    World: Hello My first Docker File
+    Removing intermediate container e7d53c05ec67 # unused container is removed here again
+    ---> 3be8406649f3
+    Successfully built 3be8406649f3
+    Successfully tagged hello-buxybox:latest
+
