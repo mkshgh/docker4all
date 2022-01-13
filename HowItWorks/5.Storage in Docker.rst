@@ -1,0 +1,107 @@
+Storage in Docker
+==================
+
+Storage in docker are isolated and stacked on top of each other.
+
+Hierarchy of Storage:
+------------------
+
+- Actual storage devices: stored in bits
+- Logical storage devices: Logical creation into sub file systems
+- Filesystem(track of data in the storage): kernel and filesytem keep track of where the files are
+- FUSE (Filesystems and Network Filesystems): Programs can pretend to be filesystem
+
+What Docker uses
+------------------
+
+COW (Moooo...........) i.e. *Copy on Write*
+
+- A base image 
+- Configuration: for creating configuration
+- The Configuration is layered in the base image
+- New container with all your configuration is created.
+- The old and the new image are independent yet dependent on each other.
+- Using cow analogy to understand it.
+
+Volumes and Shared folders
+---------------------------
+
+1. Start point of volume:
+    - It makes use of the Linux VFS (Virtual Filesystem)
+    - It starts with an assumed startpoint slash (/)
+    - Eg: /home , /etc , /something
+    - Slash (/) is the root of the tree where it starts
+
+1. Mounting devices or directories on VFS: 
+    
+    - Devices can be mounted or attached using Slashes (/)
+    - Eg: /c , /d etc.
+
+Hands of Lab
+------------
+
+1. Run the docker image
+
+.. code-block:: bash
+
+    $ docker run --rm -ti --privileged=true ubuntu:latest bash
+
+2. Create bunch of directories and files inside
+
+.. code-block:: bash
+
+    root@a3ef9d42adc2:/# mkdir mynewdir
+    root@a3ef9d42adc2:/# cd mynewdir/
+    root@a3ef9d42adc2:/mynewdir# touch somefile1 somefile2 somefile3
+    root@a3ef9d42adc2:/mynewdir# mkdir directoryinside
+    root@a3ef9d42adc2:/mynewdir# cd directoryinside/
+    root@a3ef9d42adc2:/mynewdir/directoryinside# touch file1 file2 file3
+    root@a3ef9d42adc2:/mynewdir/directoryinside# cd /mynewdir/ 
+
+    # check the files and directories inside             
+    root@a3ef9d42adc2:/mynewdir# ls -R
+
+    .:
+    directoryinside  somefile1  somefile2  somefile3
+
+    ./directoryinside:
+    file1  file2  file3
+
+3. Merge mynewdir to test-mynewdir
+
+.. code-block:: bash
+
+    $ mkdir test-directoryinside
+    $ mount -o bind directoryinside test-directoryinside
+
+4. You can see that the same directory is mounted with a different name.
+
+.. code-block:: bash
+
+    $ ls -R
+
+    ./directoryinside:
+    file1  file2  file3
+
+    ./test-directoryinside:
+    file1  file2  file3
+
+5. To unmount it
+
+.. code-block:: bash
+
+    $ umount test-directoryinside
+    $ ls -R
+
+    ./directoryinside:
+    file1  file2  file3
+
+    ./test-directoryinside:
+
+
+Order of mount files
+---------------------
+
+1. Mount the directory first
+2. Mount the files second
+3. Host files are prioritized over the container files

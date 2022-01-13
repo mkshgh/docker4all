@@ -1,0 +1,33 @@
+Processes
+==========
+
+Things to know:
+---------------
+
+    - Processes come from other Processes (Parent-Child Relationship).
+    - When a child process exits, it returns an exit code to its parent.
+    - Special *Process Zero* called *init*, It is the main process that starts the other processes.
+    - In Docker, it starts with an *init* process and vanishes when the process exits.
+
+Check the process id
+---------------------
+
+1. run a docker container
+
+.. code-block:: bash
+
+    $docker run --rm -ti --name hello ubuntu
+
+2. *Docker inspect* to view the process id.
+
+.. code-block:: bash
+
+    $docker inspect --format '{{.State.Pid}}' hello
+    65281
+
+3. If you kill the process id the docker will stop (but you must have admin privileges)
+
+.. code-block:: bash
+
+    $ sudo su
+    $ kill 65281

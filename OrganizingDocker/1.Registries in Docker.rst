@@ -1,0 +1,124 @@
+Docker Registry
+===============
+
+The Registry is a stateless, highly scalable server side application that stores and lets you distribute Docker images.
+
+Features
+--------
+
+You should use the Registry if you want to:
+
+tightly control where your images are being stored
+fully own your images distribution pipeline
+integrate image storage and distribution tightly into your in-house development workflow
+
+
+1. Start your registry
+
+.. code-block:: bash
+
+    docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+    # Mounting the external directory for registry storage
+    -v /mnt/registry:/var/lib/registry
+
+    
+2. Pull (or build) some image from the hub
+
+.. code-block:: bash
+
+    docker pull ubuntu
+
+
+3. Tag the image so that it points to your registry
+
+.. code-block:: bash
+
+    docker image tag ubuntu localhost:5000/myfirstimage
+
+
+4. Push it
+
+.. code-block:: bash
+
+    docker push localhost:5000/myfirstimage
+
+    
+5. Pull it back
+
+.. code-block:: bash
+
+    docker pull localhost:5000/myfirstimage
+
+
+6. Stop your registry and remove all data
+
+.. code-block:: bash
+
+    docker container stop registry && docker container rm -v registry
+
+
+7. Accessing with SSL
+
+.. code-block:: bash
+
+    $ mkdir -p certs
+    # Copy the .crt and .key files from the CA into the certs directory. The following steps assume that the files are named domain.crt and domain.key.
+
+    Stop the registry if it is currently running.
+
+    $ docker container stop registry
+    # Restart the registry, directing it to use the TLS certificate. This command bind-mounts the certs/ directory into the container at /certs/, and sets environment variables that tell the container where to find the domain.crt and domain.key file. The registry runs on port 443, the default HTTPS port.
+
+    $ docker run -d \
+    --restart=always \
+    --name registry \
+    -v "$(pwd)"/certs:/certs \
+    -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
+    -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
+    -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
+    -p 443:443 \
+    registry:2
+
+
+8. Native basic auth
+
+    The simplest way to achieve access restriction is through basic authentication (this is very similar to other web servers’ basic authentication mechanism). This example uses native basic authentication using htpasswd to store the secrets.
+
+    Warning: You cannot use authentication with authentication schemes that send credentials as clear text. You must configure TLS first for authentication to work.
+
+    Create a password file with one entry for the user testuser, with password testpassword:
+
+    $ mkdir auth
+    $ docker run \
+    --entrypoint htpasswd \
+    httpd:2 -Bbn testuser testpassword > auth/htpasswd
+
+    #On Windows, make sure the output file is correctly encoded:
+    $ docker run --rm --entrypoint htpasswd httpd:2 -Bbn testuser testpassword | Set-Content -Encoding ASCII auth/htpasswd
+    
+    
+    # Stop the registry.
+    $ docker container stop registry
+
+
+    # Start the registry with basic authentication.
+    $ docker run -d \
+    -p 5000:5000 \
+    --restart=always \
+    --name registry \
+    -v "$(pwd)"/auth:/auth \
+    -e "REGISTRY_AUTH=htpasswd" \
+    -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+    -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+    -v "$(pwd)"/certs:/certs \
+    -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
+    -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
+    registry:2
+
+
+9. Deploy using a docker file
+
+.. code-block:: bash
+
+    $ docker-compose up -d

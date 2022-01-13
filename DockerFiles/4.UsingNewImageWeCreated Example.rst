@@ -1,4 +1,4 @@
-Example 2
+Example 4
 =========
 
 alpine_with_nano:

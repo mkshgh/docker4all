@@ -1,0 +1,174 @@
+Networking
+===========
+
+-  Docker uses bridges to create virtual networks in the computer.
+-  Functions like a SDN
+-  They control the Ethernet Layer
+
+Bridges
+------------------
+
+1. --net=host gives full access to the host network disabling all protections
+
+It is not a good idea to turn on for live projects.
+
+.. code-block:: bash
+
+    $ docker run --rm -ti --net=host ubuntu bash
+
+    root@working:/#
+
+2. Install the bridge-utils, this shows the bridge details of the docker images
+
+.. code-block:: bash
+
+    root@working:/# apt-get update && apt-get install bridge-utils
+
+3. If you hit the brtch show command you can see the bridges created in the docker container
+
+.. code-block:: bash
+
+    root@working:/# brctl show
+    bridge name             bridge id               STP enabled     interfaces
+    br-9e3c43d2e2a3         8000.02422d8986c6       no
+    docker0                 8000.02427ca5b8a3       no
+
+4. If you create a new network outside the docker.
+
+.. code-block:: bash
+
+    $ docker network create my-new-network
+    3b9fbf3acea60bfe1116267a5b400bd343ae57afa7fb774380754d8479686665
+
+5. You can see a new network with name br-3b9fbf3acea60bf(see above that the network name starts with 3b9fbf3acea60bf).
+
+.. code-block:: bash
+
+    root@working:/# brctl show
+
+    bridge name             bridge id               STP enabled     interfaces
+    br-3b9fbf3acea6         8000.02427e2e4da1       no
+    br-9e3c43d2e2a3         8000.02422d8986c6       no
+    docker0                 8000.02427ca5b8a3       no
+
+Routing
+--------
+
+It uses the firewall features of the linux kernel for moving the packets (namely NAT).
+
+You can check the routing tables in the system using the iptables.
+
+1. View the iptables default nat rules
+
+
+.. code-block:: bash
+
+    # Open the docker in privileged mode and install iptables
+
+    $ docker run --rm -ti --net=host --privileged=true ubuntu bash
+
+    root@working:/# apt-get update && apt-get install -y iptables
+
+
+->
+
+.. code-block:: bash
+
+    # View the iptables default nat rules
+
+    $ iptables -n -L -t nat
+
+    Chain PREROUTING (policy ACCEPT)
+    target     prot opt source               destination         
+    DOCKER     all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
+
+    Chain INPUT (policy ACCEPT)
+    target     prot opt source               destination         
+
+    Chain OUTPUT (policy ACCEPT)
+    target     prot opt source               destination         
+    DOCKER     all  --  0.0.0.0/0           !127.0.0.0/8          ADDRTYPE match dst-type LOCAL
+
+    Chain POSTROUTING (policy ACCEPT)
+    target     prot opt source               destination         
+    MASQUERADE  all  --  172.19.0.0/16        0.0.0.0/0           
+    MASQUERADE  all  --  172.18.0.0/16        0.0.0.0/0           
+    MASQUERADE  all  --  172.17.0.0/16        0.0.0.0/0           
+
+    Chain DOCKER (2 references)
+    target     prot opt source               destination         
+    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+    RETURN     all  --  0.0.0.0/0            0.0.0.0/0 
+
+2. View the iptables default nat rules after forwarding a port
+
+.. code-block:: bash
+
+    # Run docker with 8000 port and install iptables; same as before
+
+    $ docker run -ti -p 8000:8000 ubuntu bash
+
+    # Go to previous container and see the 
+
+    root@working:/# apt-get update && apt-get install -y iptables
+
+    # see the iptables again
+    
+    root@working:/# iptables -n -L -t nat                               
+    
+    Chain PREROUTING (policy ACCEPT)
+    target     prot opt source               destination         
+    DOCKER     all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
+
+    Chain INPUT (policy ACCEPT)
+    target     prot opt source               destination         
+
+    Chain OUTPUT (policy ACCEPT)
+    target     prot opt source               destination         
+    DOCKER     all  --  0.0.0.0/0           !127.0.0.0/8          ADDRTYPE match dst-type LOCAL
+
+    Chain POSTROUTING (policy ACCEPT)
+    target     prot opt source               destination         
+    MASQUERADE  all  --  172.19.0.0/16        0.0.0.0/0           
+    MASQUERADE  all  --  172.18.0.0/16        0.0.0.0/0           
+    MASQUERADE  all  --  172.17.0.0/16        0.0.0.0/0           
+
+    Chain DOCKER (2 references)
+    target     prot opt source               destination         
+    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+    root@working:/# iptables -n -L -t nat
+    Chain PREROUTING (policy ACCEPT)
+    target     prot opt source               destination         
+    DOCKER     all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
+
+    Chain INPUT (policy ACCEPT)
+    target     prot opt source               destination         
+
+    Chain OUTPUT (policy ACCEPT)
+    target     prot opt source               destination         
+    DOCKER     all  --  0.0.0.0/0           !127.0.0.0/8          ADDRTYPE match dst-type LOCAL
+
+    Chain POSTROUTING (policy ACCEPT)
+    target     prot opt source               destination         
+    MASQUERADE  all  --  172.19.0.0/16        0.0.0.0/0           
+    MASQUERADE  all  --  172.18.0.0/16        0.0.0.0/0           
+    MASQUERADE  all  --  172.17.0.0/16        0.0.0.0/0           
+    MASQUERADE  tcp  --  172.17.0.2           172.17.0.2           tcp dpt:8000
+
+    Chain DOCKER (2 references)
+    target     prot opt source               destination         
+    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+    DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:8000 to:172.17.0.2:8000
+
+3. "Exposing" ports in Docker is just port forwarding in networking Layer
+    
+.. code-block:: bash
+
+    # You can see the forwarding rules in the container
+
+    tcp dpt:8000 to:172.17.0.2:8000
