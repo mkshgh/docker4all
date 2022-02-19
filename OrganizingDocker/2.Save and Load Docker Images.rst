@@ -13,6 +13,8 @@ For this docker comes with docker save to export your docker containers and dock
 Save the Docker images:
 ------------------------
 
+.. code-block:: bash
+
     # you can export a single image
     $ Docker save -o <my_image>.tar.gz alpine
 
@@ -21,6 +23,8 @@ Save the Docker images:
 
 Load the Docker images back to the host:
 -----------------------------------------
+
+.. code-block:: bash
 
     # Load the images again
     docker load -i alpine-image.tar.gz
