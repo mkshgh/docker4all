@@ -1,3 +1,0 @@
-FROM busybox
-RUN echo "container: Hello Busy World"
-CMD echo "World: Hello My first Docker File"

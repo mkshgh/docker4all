@@ -1,0 +1,25 @@
+## Container Logs
+
+Reference : `Reference for containers: <https://docs.docker.com/engine/reference/commandline/container>_
+
+1. List the running images in the docker i.e. [Continers ](https://docs.docker.com/engine/reference/commandline/ps/)
+
+
+```bash
+docker ps -l
+```
+    CONTAINER ID   IMAGE              COMMAND     CREATED         STATUS              PORTS     NAMES
+    24eee1e4e558   adoring_obsidian   "/bin/sh"   4 seconds ago   Up 3 seconds                  sharp_bhaskara
+
+
+2. Docker Logs
+
+```bash
+# Docker logs container_name
+Docker logs sharp_bhaskara
+```
+3. Delete the containers using rm
+
+```bash
+docker rm sharp_bhaskara
+```

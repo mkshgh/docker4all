@@ -1,0 +1,8 @@
+# Resource Management
+
+Docker Resource management : [link ](https://docs.docker.com/config/containers/resource_constraints/)
+
+Docker plays an role of resource manager before and during runtime.
+
+- Docker cannot use resource more than what what given to it at the begining.
+
